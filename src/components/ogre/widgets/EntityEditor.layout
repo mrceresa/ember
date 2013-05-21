@@ -214,7 +214,6 @@
 						<Property Name='Text' Value='Clear'/>
 						<Property Name='UnifiedPosition' Value='{{0.0,125},{0,20}}'/>
 						<Property Name='UnifiedSize' Value='{{0,50},{0,20}}'/>
-						<Event Name="Clicked" Function="EntityEditor.ClearButton_Clicked" />
 					</Window>
 					<Window Type='EmberLook/Editbox' Name='FilterText'>
 						<Property Name='UnifiedPosition' Value='{{0.0,180},{0,20}}'/>
@@ -226,7 +225,7 @@
 						<Property Name='UnifiedSize' Value='{{0,50},{0,20}}'/>
 						<Event Name="Clicked" Function="EntityEditor.FilterButton_Clicked" />
 					</Window>	
-					<Window Type='EmberLook/MultiLineEditbox' Name='PercList'>
+                    <Window Type='EmberLook/ItemListbox' Name='PercList'>
                         <Property Name='UnifiedPosition' Value='{{0,0},{0,50}}' />
                         <Property Name='UnifiedSize' Value='{{1,0},{1,-310}}' />
                     </Window>
