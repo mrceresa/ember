@@ -216,13 +216,12 @@
 					</Window>
 					<Window Type='EmberLook/Editbox' Name='FilterText'>
 						<Property Name='UnifiedPosition' Value='{{0.0,180},{0,20}}'/>
-						<Property Name='UnifiedSize' Value='{{0,50},{0,20}}'/>
+						<Property Name='UnifiedSize' Value='{{0,80},{0,20}}'/>
 					</Window>
 					<Window Type='EmberLook/Button' Name='FilterButton'>
 						<Property Name='Text' Value='Filter'/>
-						<Property Name='UnifiedPosition' Value='{{0.0,240},{0,20}}'/>
+						<Property Name='UnifiedPosition' Value='{{0.0,265},{0,20}}'/>
 						<Property Name='UnifiedSize' Value='{{0,50},{0,20}}'/>
-						<Event Name="Clicked" Function="EntityEditor.FilterButton_Clicked" />
 					</Window>	
                     <Window Type='EmberLook/ItemListbox' Name='PercList'>
                         <Property Name='UnifiedPosition' Value='{{0,0},{0,50}}' />
