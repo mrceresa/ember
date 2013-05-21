@@ -1500,7 +1500,7 @@ end
 -- PerceptionTab event handlers
 
 function EntityEditor:ClearButton_Clicked(args)
-	self.perclist.resetList()
+	self.perclist:resetList()
 	return true
 end
 
@@ -1510,9 +1510,9 @@ function EntityEditor:LoggingEnabled_CheckStateChanged(args)
 		EntityEditor.cleanup_connections()
 		if self.percLogEnabled:isSelected() then
 			EntityEditor.sendingConnection = createConnector(emberServices:getServerService().EventSendingObject)
-			EntityEditor.sendingConnection:connect(EntityEditor.server_SendingObject)
+			EntityEditor.sendingConnection:connect(EntityEditor.server_SendingObject,self)
 			EntityEditor.receivedConnection = createConnector(emberServices:getServerService().EventReceivedObject)
-			EntityEditor.receivedConnection:connect(EntityEditor.server_ReceivedObject)
+			EntityEditor.receivedConnection:connect(EntityEditor.server_ReceivedObject,self)
 		end
 	end
 	return true
@@ -1529,20 +1529,19 @@ function EntityEditor.cleanup_connections()
 	end
 end
 
-function EntityEditor.server_SendingObject(obj)
-	local newLogMessage = "Sending: " .. Ember.OgreView.Gui.AtlasHelper:serialize(obj, "bach") .. "\n"
+function EntityEditor:server_SendingObject(obj)
+	local newLogMessage = "Sending: " .. Ember.OgreView.Gui.AtlasHelper:serialize(obj, "bach")
+	local percItem = CEGUI.toItemEntry(windowManager:createWindow("EmberLook/ItemEntry"))
+	percItem:setText(escapeForCEGUI(newLogMessage))
+	self.perclist:addItem(percItem)
 	
-	log.info(newLogMessage)
-
-	print(newLogMessage)
 end
 
-function EntityEditor.server_ReceivedObject(obj)
-	local newLogMessage = "Receiving: " .. Ember.OgreView.Gui.AtlasHelper:serialize(obj, "bach") .. "\n"
-
-	log.info(newLogMessage)
-
-	print(newLogMessage)
+function EntityEditor:server_ReceivedObject(obj)
+	local newLogMessage = "Receiving: " .. Ember.OgreView.Gui.AtlasHelper:serialize(obj, "bach")
+	local percItem = CEGUI.toItemEntry(windowManager:createWindow("EmberLook/ItemEntry"))
+	percItem:setText(escapeForCEGUI(newLogMessage))
+	self.perclist:addItem(percItem)
 end
 
 -- END of PerceptionTab event handlers
