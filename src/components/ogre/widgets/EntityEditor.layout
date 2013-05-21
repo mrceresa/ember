@@ -208,7 +208,6 @@
 						<Property Name='UnifiedSize' Value='{{0,120},{0,20}}'/>
 						<Property Name='Tooltip' Value='Toggle logging enabled.'/>
 						<Property Name='Text' Value='Enabled'/>
-						<Event Name="CheckStateChanged" Function="EntityEditor.LoggingEnabled_CheckStateChanged" />
 					</Window>
 					<Window Type='EmberLook/Button' Name='ClearButton'>
 						<Property Name='Text' Value='Clear'/>
