@@ -1497,7 +1497,54 @@ function EntityEditor:ChildList_MouseDoubleClick(args)
 	return true
 end
 
+-- PerceptionTab event handlers
 
+function EntityEditor.ClearButton_Clicked(args)
+
+end
+
+function EntityEditor.LoggingEnabled_CheckStateChanged(args)
+	local checkBox = CEGUI.toCheckbox(ServerLogger.widget:getWindow("LoggingEnabled"))
+	if checkBox ~= nil then
+		ServerLogger.cleanup_connections()
+		if checkBox:isSelected() then
+			ServerLogger.sendingConnection = createConnector(emberServices:getServerService().EventSendingObject)
+			ServerLogger.sendingConnection:connect(ServerLogger.server_SendingObject)
+			ServerLogger.receivedConnection = createConnector(emberServices:getServerService().EventReceivedObject)
+			ServerLogger.receivedConnection:connect(ServerLogger.server_ReceivedObject)
+		end
+	end
+	return true
+end
+
+function EntityEditor.cleanup_connections()
+	if EntityEditor.sendingConnection ~= nil then
+		EntityEditor.sendingConnection:disconnect()
+		EntityEditor.sendingConnection = nil
+	end
+	if EntityEditor.receivedConnection ~= nil then
+		EntityEditor.receivedConnection:disconnect()
+		EntityEditor.receivedConnection = nil
+	end
+end
+
+function EntityEditor.server_SendingObject(obj)
+	local newLogMessage = "Sending: " .. Ember.OgreView.Gui.AtlasHelper:serialize(obj, "bach") .. "\n"
+	
+	log.info(newLogMessage)
+
+	EntityEditor.logTextWidget:setText(ServerLogger.logTextWidget:getText() .. newLogMessage)
+end
+
+function EntityEditor.server_ReceivedObject(obj)
+	local newLogMessage = "Receiving: " .. Ember.OgreView.Gui.AtlasHelper:serialize(obj, "bach") .. "\n"
+
+	log.info(newLogMessage)
+
+	EntityEditor.logTextWidget:setText(ServerLogger.logTextWidget:getText() .. newLogMessage)
+end
+
+-- END of PerceptionTab event handlers
 
 function EntityEditor:handleAction(action, entity)
 
@@ -1557,6 +1604,11 @@ function EntityEditor:buildWidget()
 		self.childListholder = Ember.OgreView.Gui.ListHolder:new(self.childlistbox, self.childlistFilter)
 
 		self.goallistbox = CEGUI.toItemListbox(self.widget:getWindow("GoalList"))
+-- PerceptionTab convenience variables
+--		self.perclistbox = CEGUI.toItemListbox(self.widget:getWindow("PercList"))
+--		self.percInfo = self.widget:getWindow("PercInfo")
+		self.logTextWidget = EntityEditor.widget:getWindow("PercList")
+-- End of PerceptionTab convenience variables
 
 		self.knowledgelistbox = CEGUI.toItemListbox(self.widget:getWindow("KnowledgeList"))
 
