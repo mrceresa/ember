@@ -1499,19 +1499,20 @@ end
 
 -- PerceptionTab event handlers
 
-function EntityEditor.ClearButton_Clicked(args)
-
+function EntityEditor:ClearButton_Clicked(args)
+	self.perclist.resetList()
+	return true
 end
 
-function EntityEditor.LoggingEnabled_CheckStateChanged(args)
-	local checkBox = CEGUI.toCheckbox(ServerLogger.widget:getWindow("LoggingEnabled"))
+function EntityEditor:LoggingEnabled_CheckStateChanged(args)
+	local checkBox = CEGUI.toCheckbox(self.widget:getWindow("LoggingEnabled"))
 	if checkBox ~= nil then
-		ServerLogger.cleanup_connections()
+		EntityEditor.cleanup_connections()
 		if checkBox:isSelected() then
-			ServerLogger.sendingConnection = createConnector(emberServices:getServerService().EventSendingObject)
-			ServerLogger.sendingConnection:connect(ServerLogger.server_SendingObject)
-			ServerLogger.receivedConnection = createConnector(emberServices:getServerService().EventReceivedObject)
-			ServerLogger.receivedConnection:connect(ServerLogger.server_ReceivedObject)
+			EntityEditor.sendingConnection = createConnector(emberServices:getServerService().EventSendingObject)
+			EntityEditor.sendingConnection:connect(EntityEditor.server_SendingObject)
+			EntityEditor.receivedConnection = createConnector(emberServices:getServerService().EventReceivedObject)
+			EntityEditor.receivedConnection:connect(EntityEditor.server_ReceivedObject)
 		end
 	end
 	return true
@@ -1604,11 +1605,6 @@ function EntityEditor:buildWidget()
 		self.childListholder = Ember.OgreView.Gui.ListHolder:new(self.childlistbox, self.childlistFilter)
 
 		self.goallistbox = CEGUI.toItemListbox(self.widget:getWindow("GoalList"))
--- PerceptionTab convenience variables
---		self.perclistbox = CEGUI.toItemListbox(self.widget:getWindow("PercList"))
---		self.percInfo = self.widget:getWindow("PercInfo")
-		self.logTextWidget = EntityEditor.widget:getWindow("PercList")
--- End of PerceptionTab convenience variables
 
 		self.knowledgelistbox = CEGUI.toItemListbox(self.widget:getWindow("KnowledgeList"))
 
@@ -1759,6 +1755,14 @@ function EntityEditor:buildWidget()
 			return true
 		end)
 
+-- PerceptionTab convenience variables
+		self.perclist = CEGUI.toItemListbox(self.widget:getWindow("PercList"))
+--		self.percInfo = self.widget:getWindow("PercInfo")
+
+		self.percClear = CEGUI.toPushButton(self.widget:getWindow("ClearButton"))
+		self.percClear:subscribeEvent("Clicked", self.ClearButton_Clicked, self)
+
+-- End of PerceptionTab convenience variables
 
 
 		self.widget:getWindow("Submit"):subscribeEvent("Clicked", self.Submit_Clicked, self)
