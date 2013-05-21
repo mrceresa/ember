@@ -203,8 +203,31 @@
                     <Property Name='UnifiedSize' Value='{{1.0,0.0},{1.0,0.0}}' />
                     <Property Name='Text' Value='Perceptions' />
                     <!-- Property Name='Visible' Value='true'/ -->
+					<Window Type='EmberLook/Checkbox' Name='LoggingEnabled'>
+						<Property Name='UnifiedPosition' Value='{{0,4},{0,20}}'/>
+						<Property Name='UnifiedSize' Value='{{0,120},{0,20}}'/>
+						<Property Name='Tooltip' Value='Toggle logging enabled.'/>
+						<Property Name='Text' Value='Enabled'/>
+						<Event Name="CheckStateChanged" Function="EntityEditor.LoggingEnabled_CheckStateChanged" />
+					</Window>
+					<Window Type='EmberLook/Button' Name='ClearButton'>
+						<Property Name='Text' Value='Clear'/>
+						<Property Name='UnifiedPosition' Value='{{0.0,125},{0,20}}'/>
+						<Property Name='UnifiedSize' Value='{{0,50},{0,20}}'/>
+						<Event Name="Clicked" Function="EntityEditor.ClearButton_Clicked" />
+					</Window>
+					<Window Type='EmberLook/Editbox' Name='FilterText'>
+						<Property Name='UnifiedPosition' Value='{{0.0,180},{0,20}}'/>
+						<Property Name='UnifiedSize' Value='{{0,50},{0,20}}'/>
+					</Window>
+					<Window Type='EmberLook/Button' Name='FilterButton'>
+						<Property Name='Text' Value='Filter'/>
+						<Property Name='UnifiedPosition' Value='{{0.0,240},{0,20}}'/>
+						<Property Name='UnifiedSize' Value='{{0,50},{0,20}}'/>
+						<Event Name="Clicked" Function="EntityEditor.FilterButton_Clicked" />
+					</Window>	
                     <Window Type='EmberLook/ItemListbox' Name='PercList'>
-                        <Property Name='UnifiedPosition' Value='{{0,0},{0,0}}' />
+                        <Property Name='UnifiedPosition' Value='{{0,0},{0,50}}' />
                         <Property Name='UnifiedSize' Value='{{1,0},{1,-310}}' />
                     </Window>
                     <Window Type='EmberLook/StaticText' Name='PercInfo'>
@@ -214,47 +237,6 @@
                         <Property Name='VertFormatting' Value='TopAligned'/>
                         <Property Name='HorzScrollbar' Value='False'/>
                         <Property Name='VertScrollbar' Value='True'/>
-                    </Window>
-                    <Window Type='EmberLook/Button' Name='RefreshPerc'>
-                        <Property Name='UnifiedPosition' Value='{{0,5},{1.0,-105}}' />
-                        <Property Name='UnifiedSize' Value='{{0,75},{0,20}}' />
-                        <Property Name='Text' Value='Refresh' />
-                    </Window>
-                    <Window Type='EmberLook/StaticText' Name='PercHelp'>
-                        <Property Name='UnifiedPosition' Value='{{0,5},{1.0,-120}}' />
-                        <Property Name='UnifiedSize' Value='{{1,-10},{0,40}}' />
-                        <Property Name='Visible' Value='False' />
-                        <Property Name="BackgroundEnabled" Value='True' />
-                        <Property Name='HorzFormatting' Value='WordWrapLeftAligned'/>
-                        <Property Name='VertFormatting' Value='TopAligned'/>
-                        <Property Name="FrameEnabled" Value='True' />
-                    </Window>
-                    <Window Type='HorizontalLayoutContainer'>
-                        <Property Name='UnifiedPosition' Value='{{0,5},{1.0,-80}}' />
-                        <Property Name='UnifiedSize' Value='{{1,-10},{0,75}}' />
-                        <Window Type='EmberLook/Combobox' Name='PercVerb'>
-                            <Property Name='UnifiedSize' Value='{{0,100},{0,200}}' />
-                            <Property Name='Tooltip' Value='The verb which will be associated with the goal.' />
-                        </Window>
-                        <Window Type='EmberLook/MultiLineEditbox' Name='PercDefinition'>
-                            <Property Name='UnifiedSize' Value='{{1,-160},{0,75}}' />
-                            <Property Name='Tooltip' Value='The goal definition.' />
-                        </Window>
-                        <Window Type='VerticalLayoutContainer'>
-                            <Property Name='UnifiedSize' Value='{{0,50},{0,60}}' />
-                            <Window Type='EmberLook/Button' Name='PercAdd'>
-                                <Property Name='UnifiedSize' Value='{{0,50},{0,20}}' />
-                                <Property Name='Text' Value='Add' />
-                            </Window>
-                            <Window Type='EmberLook/Button' Name='PercUpdate'>
-                                <Property Name='UnifiedSize' Value='{{0,50},{0,20}}' />
-                                <Property Name='Text' Value='Update' />
-                            </Window>
-                            <Window Type='EmberLook/Button' Name='PercRemove'>
-                                <Property Name='UnifiedSize' Value='{{0,50},{0,20}}' />
-                                <Property Name='Text' Value='Remove' />
-                            </Window>
-                        </Window>
                     </Window>
                 </Window>
                 <Window Type='DefaultWindow' Name='DumpPanel'>
