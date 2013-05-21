@@ -1505,10 +1505,10 @@ function EntityEditor:ClearButton_Clicked(args)
 end
 
 function EntityEditor:LoggingEnabled_CheckStateChanged(args)
-	local checkBox = CEGUI.toCheckbox(self.widget:getWindow("LoggingEnabled"))
-	if checkBox ~= nil then
+
+	if self.percLogEnabled ~= nil then
 		EntityEditor.cleanup_connections()
-		if checkBox:isSelected() then
+		if self.percLogEnabled:isSelected() then
 			EntityEditor.sendingConnection = createConnector(emberServices:getServerService().EventSendingObject)
 			EntityEditor.sendingConnection:connect(EntityEditor.server_SendingObject)
 			EntityEditor.receivedConnection = createConnector(emberServices:getServerService().EventReceivedObject)
@@ -1534,7 +1534,7 @@ function EntityEditor.server_SendingObject(obj)
 	
 	log.info(newLogMessage)
 
-	EntityEditor.logTextWidget:setText(ServerLogger.logTextWidget:getText() .. newLogMessage)
+	print(newLogMessage)
 end
 
 function EntityEditor.server_ReceivedObject(obj)
@@ -1542,7 +1542,7 @@ function EntityEditor.server_ReceivedObject(obj)
 
 	log.info(newLogMessage)
 
-	EntityEditor.logTextWidget:setText(ServerLogger.logTextWidget:getText() .. newLogMessage)
+	print(newLogMessage)
 end
 
 -- END of PerceptionTab event handlers
@@ -1761,6 +1761,9 @@ function EntityEditor:buildWidget()
 
 		self.percClear = CEGUI.toPushButton(self.widget:getWindow("ClearButton"))
 		self.percClear:subscribeEvent("Clicked", self.ClearButton_Clicked, self)
+
+		self.percLogEnabled = CEGUI.toCheckbox(self.widget:getWindow("LoggingEnabled"))
+		self.percLogEnabled:subscribeEvent("CheckStateChanged", self.LoggingEnabled_CheckStateChanged, self)
 
 -- End of PerceptionTab convenience variables
 
