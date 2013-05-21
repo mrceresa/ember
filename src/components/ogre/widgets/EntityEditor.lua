@@ -1504,13 +1504,15 @@ function EntityEditor:ClearButton_Clicked(args)
 	return true
 end
 
+function EntityEditor:FilterButton_Clicked(args)
+	return true
+end
+
 function EntityEditor:LoggingEnabled_CheckStateChanged(args)
 
 	if self.percLogEnabled ~= nil then
 		EntityEditor.cleanup_connections()
 		if self.percLogEnabled:isSelected() then
-			EntityEditor.sendingConnection = createConnector(emberServices:getServerService().EventSendingObject)
-			EntityEditor.sendingConnection:connect(EntityEditor.server_SendingObject,self)
 			EntityEditor.receivedConnection = createConnector(emberServices:getServerService().EventReceivedObject)
 			EntityEditor.receivedConnection:connect(EntityEditor.server_ReceivedObject,self)
 		end
@@ -1529,16 +1531,9 @@ function EntityEditor.cleanup_connections()
 	end
 end
 
-function EntityEditor:server_SendingObject(obj)
-	local newLogMessage = "Sending: " .. Ember.OgreView.Gui.AtlasHelper:serialize(obj, "bach")
-	local percItem = CEGUI.toItemEntry(windowManager:createWindow("EmberLook/ItemEntry"))
-	percItem:setText(escapeForCEGUI(newLogMessage))
-	self.perclist:addItem(percItem)
-	
-end
 
 function EntityEditor:server_ReceivedObject(obj)
-	local newLogMessage = "Receiving: " .. Ember.OgreView.Gui.AtlasHelper:serialize(obj, "bach")
+	local newLogMessage = Ember.OgreView.Gui.AtlasHelper:serialize(obj, "bach")
 	local percItem = CEGUI.toItemEntry(windowManager:createWindow("EmberLook/ItemEntry"))
 	percItem:setText(escapeForCEGUI(newLogMessage))
 	self.perclist:addItem(percItem)
@@ -1763,6 +1758,10 @@ function EntityEditor:buildWidget()
 
 		self.percLogEnabled = CEGUI.toCheckbox(self.widget:getWindow("LoggingEnabled"))
 		self.percLogEnabled:subscribeEvent("CheckStateChanged", self.LoggingEnabled_CheckStateChanged, self)
+
+		self.percFilter = CEGUI.toPushButton(self.widget:getWindow("FilterButton"))
+		self.percFilter:subscribeEvent("Clicked", self.FilterButton_Clicked, self)
+
 
 -- End of PerceptionTab convenience variables
 
